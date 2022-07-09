@@ -24,7 +24,7 @@ impl Options {
     pub fn generate(choice: &Options) -> String {
         use Options::*;
 
-        let mut code = r#""#.to_string();
+        let code;
 
         match &choice {
             PygameBoilerplate => {
@@ -134,18 +134,13 @@ int main() {
     return 0;
 }
                 "#.to_owned(); }
-
-            &_ => {
-                println!("{}", "Error: Not an option".red());
-                panic!("");
-            }
         }
 
         code
     }
 
     pub fn make_file(option: &Options, code: &String) {
-        let mut filename = String::new();
+        let filename: String;
 
         match option {
             Options::PygameBoilerplate => filename = "main.py".to_string(),
@@ -155,10 +150,6 @@ int main() {
             Options::CSharp => filename = "Main.cs".to_string(),
             Options::C => filename = "main.c".to_string(),
             Options::Cpp => filename = "main.cpp".to_string(),
-            &_ => {
-                println!("{}", "Error: Option not found".red());
-                panic!();
-            }
         }
 
         fs::File::create(&filename).unwrap_or_else(|e| {
