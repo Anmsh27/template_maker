@@ -7,6 +7,8 @@ use strum_macros::EnumIter;
 pub enum Options {
     PygameBoilerplate,
     PygameObjectOriented,
+    Java,
+    Rust,
 }
 
 impl Options {
@@ -73,8 +75,23 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.run()
-                "#.to_owned(); 
-            }
+                "#.to_owned(); },
+
+            Options::Java => {
+                code = r#"
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+                "#.to_owned(); },
+
+            Options::Rust => {
+                code = r#"
+fn main() {
+    println!("Hello, World!");
+}
+                "#.to_owned(); }
 
             &_ => {
                 println!("{}", "Error: Not an option".red());
@@ -91,6 +108,8 @@ if __name__ == '__main__':
         match option {
             Options::PygameBoilerplate => filename = "main.py".to_string(),
             Options::PygameObjectOriented => filename = "main.py".to_string(),
+            Options::Java => filename = "Main.java".to_string(),
+            Options::Rust => filename = "main.rs".to_string(),
             &_ => {
                 println!("{}", "Error: Option not found".red());
                 panic!();

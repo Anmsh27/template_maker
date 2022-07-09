@@ -30,6 +30,18 @@ fn main() {
             println!("{}", format!("{}", &code).on_white().bright_blue());
             Options::make_file(&choice, &code);
         }
+        "2" => {
+            let choice = Options::Java;
+            let code = Options::generate(&choice);
+            println!("{}", format!("{}", &code).on_white().bright_blue());
+            Options::make_file(&choice, &code);
+        },
+        "3" => {
+            let choice = Options::Rust;
+            let code = Options::generate(&choice);
+            println!("{}", format!("{}", &code).on_white().bright_blue());
+            Options::make_file(&choice, &code);
+        }
         &_ => {
             println!("{}", "Error: Not an option".red());
             panic!("");
