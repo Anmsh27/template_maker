@@ -41,7 +41,13 @@ fn main() {
             let code = Options::generate(&choice);
             println!("{}", format!("{}", &code).on_white().bright_blue());
             Options::make_file(&choice, &code);
-        }
+        },
+        "4" => {
+            let choice = Options::CSharp;
+            let code = Options::generate(&choice);
+            println!("{}", format!("{}", &code).on_white().bright_blue());
+            Options::make_file(&choice, &code);
+        },
         &_ => {
             println!("{}", "Error: Not an option".red());
             panic!("");

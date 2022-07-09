@@ -9,6 +9,7 @@ pub enum Options {
     PygameObjectOriented,
     Java,
     Rust,
+    CSharp,
 }
 
 impl Options {
@@ -91,7 +92,21 @@ public class Main {
 fn main() {
     println!("Hello, World!");
 }
-                "#.to_owned(); }
+                "#.to_owned(); },
+            
+            Options::CSharp => {
+                code = r#"
+using System;
+using System.Collections.Generic;
+
+namespace Program {
+    class Program {
+        static void Main(String[] args) {
+            Console.WriteLine("Hello, World!");
+        }
+    }
+}
+                "#.to_owned(); },
 
             &_ => {
                 println!("{}", "Error: Not an option".red());
@@ -110,6 +125,7 @@ fn main() {
             Options::PygameObjectOriented => filename = "main.py".to_string(),
             Options::Java => filename = "Main.java".to_string(),
             Options::Rust => filename = "main.rs".to_string(),
+            Options::CSharp => filename = "Main.cs".to_string(),
             &_ => {
                 println!("{}", "Error: Option not found".red());
                 panic!();
