@@ -10,6 +10,8 @@ pub enum Options {
     Java,
     Rust,
     CSharp,
+    C,
+    Cpp,
 }
 
 impl Options {
@@ -107,6 +109,31 @@ namespace Program {
     }
 }
                 "#.to_owned(); },
+            
+            Options::C => {
+                code = r#"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    printf("Hello, World!\n");
+
+    return 0;
+}
+                "#.to_owned(); },
+            
+            Options::Cpp => {
+                code = r#"
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    cout << "Hello, World!" << endl;
+
+    return 0;
+}
+                "#.to_owned(); }
 
             &_ => {
                 println!("{}", "Error: Not an option".red());
@@ -126,6 +153,8 @@ namespace Program {
             Options::Java => filename = "Main.java".to_string(),
             Options::Rust => filename = "main.rs".to_string(),
             Options::CSharp => filename = "Main.cs".to_string(),
+            Options::C => filename = "main.c".to_string(),
+            Options::Cpp => filename = "main.cpp".to_string(),
             &_ => {
                 println!("{}", "Error: Option not found".red());
                 panic!();

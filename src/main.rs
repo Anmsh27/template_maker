@@ -48,6 +48,18 @@ fn main() {
             println!("{}", format!("{}", &code).on_white().bright_blue());
             Options::make_file(&choice, &code);
         },
+        "5" => {
+            let choice = Options::C;
+            let code = Options::generate(&choice);
+            println!("{}", format!("{}", &code).on_white().bright_blue());
+            Options::make_file(&choice, &code);
+        },
+        "6" => {
+            let choice = Options::Cpp;
+            let code = Options::generate(&choice);
+            println!("{}", format!("{}", &code).on_white().bright_blue());
+            Options::make_file(&choice, &code);
+        }
         &_ => {
             println!("{}", "Error: Not an option".red());
             panic!("");
