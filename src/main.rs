@@ -60,6 +60,10 @@ fn main() {
             println!("{}", format!("{}", &code).on_white().bright_blue());
             Options::make_file(&choice, &code);
         }
+        "7" => {
+            let choice = Options::Flask;
+            Options::generate(&choice);
+        }
         &_ => {
             println!("{}", "Error: Not an option".red());
             panic!("");

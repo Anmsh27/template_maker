@@ -3,8 +3,9 @@ use std::fs;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
+
 #[derive(Debug, EnumIter)]
-pub enum Options {
+pub enum Options {  
     PygameBoilerplate,
     PygameObjectOriented,
     Java,
@@ -12,6 +13,7 @@ pub enum Options {
     CSharp,
     C,
     Cpp,
+    Flask,
 }
 
 impl Options {
@@ -19,6 +21,89 @@ impl Options {
         for (x, y) in Options::iter().enumerate() {
             println!("    {}", format!("[{:?}] {:?}", x, y));
         }
+    }
+
+    pub fn generate_flask() {
+        let dirbuilder = fs::DirBuilder::new();
+
+        dirbuilder.create("Flask_Project")
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+        
+        dirbuilder.create("Flask_Project/templates")
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+
+        fs::File::create("Flask_Project/main.py")
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+        
+        fs::File::create("Flask_Project/run.py")
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+        
+        fs::File::create("Flask_Project/templates/index.html")
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+
+        let main_content = r#"
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+        "#;
+
+        let run_content = r#"
+from main import app
+
+app.run(debug=True)
+        "#;
+
+        let html_content = r#"
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>My Website</title>
+    </head>
+    <body>
+        <h1>Hello, World!</h1>
+    </body>
+</html>
+        "#;
+        
+        fs::write("Flask_Project/main.py", main_content)
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+        
+        fs::write("Flask_Project/run.py", run_content)
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
+
+        fs::write("Flask_Project/templates/index.html", html_content)
+            .unwrap_or_else(|e| {
+                println!("{}", format!("Error: {}", e).red());
+                panic!("");
+            });
     }
 
     pub fn generate(choice: &Options) -> String {
@@ -133,9 +218,14 @@ int main() {
 
     return 0;
 }
-                "#.to_owned(); }
+                "#.to_owned(); },
+
+        Options::Flask => { 
+            Options::generate_flask();
+            return String::new();
         }
 
+        }
         code
     }
 
@@ -150,6 +240,7 @@ int main() {
             Options::CSharp => filename = "Main.cs".to_string(),
             Options::C => filename = "main.c".to_string(),
             Options::Cpp => filename = "main.cpp".to_string(),
+            Options::Flask => filename = "main.py".to_string()
         }
 
         fs::File::create(&filename).unwrap_or_else(|e| {
