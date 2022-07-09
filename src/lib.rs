@@ -6,6 +6,7 @@ use strum_macros::EnumIter;
 #[derive(Debug, EnumIter)]
 pub enum Options {
     PygameBoilerplate,
+    PygameObjectOriented,
 }
 
 impl Options {
@@ -28,7 +29,7 @@ from sys import exit
 pygame.init()
 
 screen = pygame.display.set_mode((500,500))
-pygame.display.set_caption("")
+pygame.display.set_caption("Game")
 clock = pygame.time.Clock()
 
 while True:
@@ -37,13 +38,44 @@ while True:
             exit()
             pygame.quit()
     
-    screen.fill("black")
+    screen.fill('black')
 
     pygame.display.flip()
     clock.tick(60)
                 "#
-                .to_owned();
+                .to_owned(); },
+            
+            Options::PygameObjectOriented => {
+                code = r#"
+import pygame
+from sys import exit
+
+class Game:
+    def __init__(self):
+        pygame.init()
+
+        self.screen = pygame.display.set_mode((500,500))
+        pygame.display.set_caption("Game")
+        self.clock = pygame.time.Clock()
+
+    def run(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+
+            self.screen.fill('black')
+
+            pygame.display.update()
+            self.clock.tick(60)
+
+if __name__ == '__main__':
+    game = Game()
+    game.run()
+                "#.to_owned(); 
             }
+
             &_ => {
                 println!("{}", "Error: Not an option".red());
                 panic!("");
@@ -58,6 +90,7 @@ while True:
 
         match option {
             Options::PygameBoilerplate => filename = "main.py".to_string(),
+            Options::PygameObjectOriented => filename = "main.py".to_string(),
             &_ => {
                 println!("{}", "Error: Option not found".red());
                 panic!();
